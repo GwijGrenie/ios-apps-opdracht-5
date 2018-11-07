@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="ipad9_7" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -9,16 +12,120 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ios_apps_opdracht_5" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="G A L G J E" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SHK-kt-sNp">
+                                <rect key="frame" x="409" y="28" width="206" height="50.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="42"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Wuf-KT-Dls">
+                                <rect key="frame" x="16" y="94.5" width="992" height="259.5"/>
+                                <subviews>
+                                    <pickerView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hln-mq-8Lf">
+                                        <rect key="frame" x="0.0" y="0.0" width="152" height="259.5"/>
+                                    </pickerView>
+                                    <pickerView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vge-Y0-2ac">
+                                        <rect key="frame" x="168" y="0.0" width="152" height="259.5"/>
+                                    </pickerView>
+                                    <pickerView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eUD-Ce-a1p">
+                                        <rect key="frame" x="336" y="0.0" width="152" height="259.5"/>
+                                    </pickerView>
+                                    <pickerView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="efi-Ab-RHz">
+                                        <rect key="frame" x="504" y="0.0" width="152" height="259.5"/>
+                                    </pickerView>
+                                    <pickerView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J84-Mt-ULu">
+                                        <rect key="frame" x="672" y="0.0" width="152" height="259.5"/>
+                                    </pickerView>
+                                    <pickerView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jKz-13-Yal">
+                                        <rect key="frame" x="840" y="0.0" width="152" height="259.5"/>
+                                    </pickerView>
+                                </subviews>
+                            </stackView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="_ _ _ _ _ _" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6Ei-If-mkq">
+                                <rect key="frame" x="392" y="370" width="240" height="150"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="42"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="64" translatesAutoresizingMaskIntoConstraints="NO" id="39l-ME-C4c">
+                                <rect key="frame" x="64" y="536" width="896" height="216"/>
+                                <subviews>
+                                    <imageView contentMode="bottomRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="start.png" translatesAutoresizingMaskIntoConstraints="NO" id="32n-FS-GfA">
+                                        <rect key="frame" x="0.0" y="0.0" width="256" height="216"/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="V3J-Z5-CQN" appends="YES" id="XT6-xf-bAl"/>
+                                        </connections>
+                                    </imageView>
+                                    <pickerView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="41y-w0-f06">
+                                        <rect key="frame" x="320" y="0.0" width="256" height="216"/>
+                                    </pickerView>
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tMY-tS-8zL">
+                                        <rect key="frame" x="640" y="0.0" width="256" height="216"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <state key="normal" title="SPEEL"/>
+                                        <connections>
+                                            <action selector="onTouchUpInsideButtonPlayLetter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aX5-xv-S9E"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="galgje1.png" translatesAutoresizingMaskIntoConstraints="NO" id="bf8-4b-uKr">
+                                <rect key="frame" x="64" y="370" width="57" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="cc7-4U-f4H"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="SHK-kt-sNp" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="2Qs-f3-laa"/>
+                            <constraint firstItem="Wuf-KT-Dls" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="7fn-tJ-ufT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="39l-ME-C4c" secondAttribute="bottom" constant="16" id="Cmp-Ki-ZH5"/>
+                            <constraint firstItem="SHK-kt-sNp" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="8" id="OIT-sU-y9I"/>
+                            <constraint firstItem="39l-ME-C4c" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="64" id="RR7-bC-HAT"/>
+                            <constraint firstItem="Wuf-KT-Dls" firstAttribute="top" secondItem="SHK-kt-sNp" secondAttribute="bottom" constant="16" id="VO9-ag-wOz"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6Ei-If-mkq" secondAttribute="trailing" constant="392" id="XEb-Pv-3iG"/>
+                            <constraint firstItem="39l-ME-C4c" firstAttribute="top" secondItem="bf8-4b-uKr" secondAttribute="bottom" constant="16" id="cfE-oK-FRM"/>
+                            <constraint firstItem="6Ei-If-mkq" firstAttribute="centerX" secondItem="Wuf-KT-Dls" secondAttribute="centerX" id="fO2-eh-TGM"/>
+                            <constraint firstAttribute="trailing" secondItem="Wuf-KT-Dls" secondAttribute="trailing" constant="16" id="fvk-gn-ceH"/>
+                            <constraint firstItem="6Ei-If-mkq" firstAttribute="bottom" secondItem="bf8-4b-uKr" secondAttribute="bottom" id="jDw-p1-ptV"/>
+                            <constraint firstItem="6Ei-If-mkq" firstAttribute="centerY" secondItem="bf8-4b-uKr" secondAttribute="centerY" id="nXc-Mj-LEV"/>
+                            <constraint firstItem="bf8-4b-uKr" firstAttribute="top" secondItem="Wuf-KT-Dls" secondAttribute="bottom" constant="16" id="qSi-Be-wcb"/>
+                            <constraint firstItem="bf8-4b-uKr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="64" id="qfv-Pt-Ftq"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="39l-ME-C4c" secondAttribute="trailing" constant="64" id="rrw-Xx-UQQ"/>
+                            <constraint firstItem="6Ei-If-mkq" firstAttribute="top" secondItem="bf8-4b-uKr" secondAttribute="top" id="uLc-NN-sos"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="buttonPlayLetter" destination="tMY-tS-8zL" id="Az6-rb-Vd4"/>
+                        <outlet property="pickerUserSelectedLetter" destination="41y-w0-f06" id="nen-Aj-Jxb"/>
+                        <outletCollection property="pickerCollectionLetters" destination="hln-mq-8Lf" collectionClass="NSMutableArray" id="RTb-1y-zZe"/>
+                        <outletCollection property="pickerCollectionLetters" destination="vge-Y0-2ac" collectionClass="NSMutableArray" id="fzi-gW-9Ax"/>
+                        <outletCollection property="pickerCollectionLetters" destination="eUD-Ce-a1p" collectionClass="NSMutableArray" id="Diu-zN-yDT"/>
+                        <outletCollection property="pickerCollectionLetters" destination="efi-Ab-RHz" collectionClass="NSMutableArray" id="Fac-L7-3Dl"/>
+                        <outletCollection property="pickerCollectionLetters" destination="J84-Mt-ULu" collectionClass="NSMutableArray" id="9NI-H9-jFA"/>
+                        <outletCollection property="pickerCollectionLetters" destination="jKz-13-Yal" collectionClass="NSMutableArray" id="r65-2I-Iuc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="V3J-Z5-CQN">
+                    <connections>
+                        <action selector="onTapStartGame:" destination="BYZ-38-t0r" id="IRP-4o-9hE"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
+            <point key="canvasLocation" x="133.59375" y="133.59375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="galgje1.png" width="57" height="68"/>
+        <image name="start.png" width="180" height="125"/>
+    </resources>
 </document>
