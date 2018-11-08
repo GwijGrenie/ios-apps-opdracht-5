@@ -2,34 +2,21 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet var pickerCollectionLetters: [UIPickerView]!
+    @IBOutlet weak var pickerDisplayedCharacters: UIPickerView!
     @IBOutlet weak var pickerUserSelectedLetter: UIPickerView!
     @IBOutlet weak var buttonPlayLetter: UIButton!
+    @IBOutlet weak var imageGallows: UIImageView!
     
     private var alertStartGame: UIAlertController?
     
     private let maximumNumberOfAttempts = 11
     
-    private let selectableCharacters: [String] = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-    private let notFoundCharacter: String = "-"
-    private var allCharacters: [String] = [String]()
-    
-    private var selectedWord: String = String()
     private var galgjeEngine: GalgjeEngine! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        allCharacters.append(notFoundCharacter)
-        allCharacters = allCharacters + selectableCharacters
-        
-        pickerCollectionLetters.forEach({picker in
-            picker.delegate = self
-            picker.dataSource = self
-        })
-        
-        pickerUserSelectedLetter.delegate = self
-        pickerUserSelectedLetter.dataSource = self
+        imageGallows.isHidden = true
         
         initStartGameAlert()
     }
@@ -39,39 +26,36 @@ class ViewController: UIViewController {
     }
     
     @IBAction func onTouchUpInsideButtonPlayLetter(_ sender: UIButton) {
-        let currentSelectedCharacter = selectableCharacters[pickerUserSelectedLetter.selectedRow(inComponent: 0)]
+        
+        let currentSelectedCharacter = PickerSelectableCharactersDataSourceDelegate.selectableCharacters[pickerUserSelectedLetter.selectedRow(inComponent: 0)]
+        
+        if galgjeEngine.currentAttemptedLetters.contains(currentSelectedCharacter) {
+            return
+        }
+        
         let resultOfAttempt = galgjeEngine.attempt(Letter: Character(currentSelectedCharacter))
         
         if resultOfAttempt.IsInWord {
             resultOfAttempt.AtPositions.forEach({position in
-                pickerCollectionLetters[position].selectRow(allCharacters.firstIndex(of: currentSelectedCharacter)!, inComponent: 0, animated: true)
+                
+                let indexOfCharacter = PickerDisplayedCharactersDataSourceDelegate.displayedCharacters.firstIndex(of: currentSelectedCharacter)!
+                pickerDisplayedCharacters.selectRow(indexOfCharacter, inComponent: position, animated: true)
             })
         } else {
-            
+            let currentWrongAttempts = galgjeEngine.currentWrongAttempts
+            imageGallows.isHidden = false
+            imageGallows.image = UIImage(named: "galgje" + String(currentWrongAttempts))
         }
     }
 }
 
-extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate {
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+extension ViewController: GalgjeEngineDelegate {
+    func onGameWon() {
+        
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == pickerUserSelectedLetter {
-            return selectableCharacters.count
-        }
+    func onGameLost() {
         
-        return allCharacters.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView == pickerUserSelectedLetter {
-            return selectableCharacters[row]
-        }
-        
-        return allCharacters[row]
     }
 }
 

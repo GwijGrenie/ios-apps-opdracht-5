@@ -1,9 +1,17 @@
 import Foundation
 
+protocol GalgjeEngineDelegate: NSObjectProtocol {
+    func onGameWon()
+    func onGameLost()
+}
+
 class GalgjeEngine {
+    
+    private weak var delegate: GalgjeEngineDelegate?
     
     private var _word: String
     private var _maximumAttempts: Int
+    private var _currentAttemptedLetters: [String]
     private(set) var currentWrongAttempts: Int
     
     var word: String {
@@ -24,6 +32,15 @@ class GalgjeEngine {
         }
     }
     
+    var currentAttemptedLetters: [String] {
+        get {
+            return _currentAttemptedLetters
+        }
+        set (value) {
+            _currentAttemptedLetters = value
+        }
+    }
+    
     convenience init () {
         self.init(WithWord: String(), WithMaximumNumberOfAttempts: Int())
     }
@@ -31,7 +48,16 @@ class GalgjeEngine {
     init(WithWord word: String, WithMaximumNumberOfAttempts maximumAttempts: Int) {
         _word = word.uppercased()
         _maximumAttempts = maximumAttempts
+        _currentAttemptedLetters = [String]()
         currentWrongAttempts = 0
+    }
+    
+    func attachDelegate(_ delegate: GalgjeEngineDelegate) {
+        self.delegate = delegate
+    }
+    
+    func detachDelegate() {
+        delegate = nil
     }
     
     func resetEngine() {
@@ -40,22 +66,26 @@ class GalgjeEngine {
     
     func attempt(Letter letter: Character) -> (IsInWord: Bool, AtPositions: [Int]) {
         
+        currentAttemptedLetters.append(String(letter))
+        
         var isCharacterFound: Bool = false
         var positionsOfFoundCharacters: [Int] = [Int]()
         
         var currentPosition: Int = 0
         
         word.forEach({ character in
-            print(character)
             if character == letter {
                 isCharacterFound = true
                 positionsOfFoundCharacters.append(currentPosition)
-                currentPosition += 1
             }
+            currentPosition += 1
         })
         
         if !isCharacterFound {
             currentWrongAttempts += 1
+            if currentWrongAttempts == maximumAttempts {
+                delegate?.onGameLost()
+            }
         }
         
         return ( isCharacterFound, positionsOfFoundCharacters )
