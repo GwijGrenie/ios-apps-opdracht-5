@@ -9,28 +9,11 @@ class GalgjeEngine {
     
     private weak var delegate: GalgjeEngineDelegate?
     
-    private var _word: String
-    private var _maximumAttempts: Int
     private var _currentAttemptedLetters: [String]
+    private(set) var currentCorrectLetters: [String] = ["_", "_", "_", "_"]
+    private(set) var maximumAttempts: Int
     private(set) var currentWrongAttempts: Int
-    
-    var word: String {
-        get {
-            return _word
-        }
-        set (value) {
-            _word = value.uppercased()
-        }
-    }
-    
-    var maximumAttempts: Int {
-        get {
-            return _maximumAttempts
-        }
-        set (value) {
-            _maximumAttempts = value
-        }
-    }
+    private(set) var word: String
     
     var currentAttemptedLetters: [String] {
         get {
@@ -46,8 +29,8 @@ class GalgjeEngine {
     }
     
     init(WithWord word: String, WithMaximumNumberOfAttempts maximumAttempts: Int) {
-        _word = word.uppercased()
-        _maximumAttempts = maximumAttempts
+        self.word = word.uppercased()
+        self.maximumAttempts = maximumAttempts
         _currentAttemptedLetters = [String]()
         currentWrongAttempts = 0
     }
@@ -64,7 +47,7 @@ class GalgjeEngine {
         currentWrongAttempts = 0
     }
     
-    func attempt(Letter letter: Character) -> (IsInWord: Bool, AtPositions: [Int]) {
+    func attempt(Letter letter: Character) -> (isInWord: Bool, atPositions: [Int]) {
         
         currentAttemptedLetters.append(String(letter))
         
@@ -86,6 +69,8 @@ class GalgjeEngine {
             if currentWrongAttempts == maximumAttempts {
                 delegate?.onGameLost()
             }
+        } else {
+            
         }
         
         return ( isCharacterFound, positionsOfFoundCharacters )

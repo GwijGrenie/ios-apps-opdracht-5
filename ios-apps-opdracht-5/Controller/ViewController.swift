@@ -6,10 +6,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var pickerUserSelectedLetter: UIPickerView!
     @IBOutlet weak var buttonPlayLetter: UIButton!
     @IBOutlet weak var imageGallows: UIImageView!
+    @IBOutlet weak var textBoxCorrectLetterHistory: UITextView!
     
-    private var alertStartGame: UIAlertController?
-    
-    private let maximumNumberOfAttempts = 11
+    private let maximumNumberOfAttempts: Int = 11
+    private var correctLetters: [String] = ["_", "_", "_", "_", "_", "_"]
     
     private var galgjeEngine: GalgjeEngine! = nil
     
@@ -17,8 +17,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         imageGallows.isHidden = true
-        
-        initStartGameAlert()
     }
     
     @IBAction func onTapStartGame(_ sender: UITapGestureRecognizer) {
@@ -40,7 +38,9 @@ class ViewController: UIViewController {
                 
                 let indexOfCharacter = PickerDisplayedCharactersDataSourceDelegate.displayedCharacters.firstIndex(of: currentSelectedCharacter)!
                 pickerDisplayedCharacters.selectRow(indexOfCharacter, inComponent: position, animated: true)
+                correctLetters[position] = currentSelectedCharacter
             })
+            updateCorrectLettersHistory()
         } else {
             let currentWrongAttempts = galgjeEngine.currentWrongAttempts
             imageGallows.isHidden = false
@@ -50,34 +50,31 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: GalgjeEngineDelegate {
+    
     func onGameWon() {
-        
+        showAlert("Gewonnen", "Proficiat")
+        isLetterSelectionEnabled(false)
     }
     
     func onGameLost() {
-        
+        showAlert("Verloren", "Jammer!")
+        isLetterSelectionEnabled(false)
     }
 }
 
 extension ViewController {
     
-    private func initStartGameAlert() {
-        alertStartGame = UIAlertController(title: "GALGJE", message: "Geef een woord van 6 letters...", preferredStyle: UIAlertController.Style.alert)
-        alertStartGame!.addAction(UIAlertAction(title: "Annuleer", style: UIAlertAction.Style.cancel, handler: nil))
-        alertStartGame!.addTextField(configurationHandler: { textField in
+    private func showStartGameDialog() {
+        let alertStartGame: UIAlertController = UIAlertController(title: "GALGJE", message: "Geef een woord van 6 letters...", preferredStyle: UIAlertController.Style.alert)
+        alertStartGame.addAction(UIAlertAction(title: "Annuleer", style: UIAlertAction.Style.cancel, handler: nil))
+        alertStartGame.addTextField(configurationHandler: { textField in
             textField.placeholder = "Woord..."
         })
-        alertStartGame!.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { action in
-            self.onSelectedWord(self.alertStartGame!)
+        alertStartGame.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { action in
+            self.onSelectedWord(alertStartGame)
         }))
-    }
-    
-    private func showStartGameDialog() {
-        guard let unwrappedAlertStartGame = alertStartGame else {
-            return
-        }
         
-        present(unwrappedAlertStartGame, animated: true)
+        present(alertStartGame, animated: true)
     }
     
     private func onSelectedWord(_ alert: UIAlertController) {
@@ -85,28 +82,38 @@ extension ViewController {
         let validationResult = self.validateSelectedWord(word)
         
         if validationResult.isValid {
+            resetPicker(pickerUserSelectedLetter)
+            resetPicker(pickerDisplayedCharacters)
             galgjeEngine = GalgjeEngine(WithWord: word!, WithMaximumNumberOfAttempts: maximumNumberOfAttempts)
+            galgjeEngine.attachDelegate(self)
             isLetterSelectionEnabled(true)
         } else {
-            // TODO: ¯\_(ツ)_/¯
-            // nothing for now...
-            // maybe show error...
-            print(validationResult.error!)
+            showAlert("WRONG!", validationResult.error!)
         }
+    }
+    
+    private func showAlert(_ title: String, _ message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+        present(alert, animated: true)
     }
     
     private func validateSelectedWord(_ word: String?) -> (isValid: Bool, error: String?) {
         
         guard let unwrappedWord = word else {
-            return ( false, "word must not be empty" )
+            return ( false, "woord is leeg")
         }
         
         if unwrappedWord.isEmpty {
-            return ( false, "word must not be empty" )
+            return ( false, "woord is leeg" )
         }
         
         if unwrappedWord.count > 6 {
-            return ( false, "word cannot be greater than 6 characters" )
+            return ( false, "woord moet minstens 6 karakters lang zijn" )
+        }
+        
+        if !unwrappedWord.containsOnlyLetters() {
+            return ( false, "woord moet enkel letters bevatten")
         }
         
         return ( true, nil )
@@ -124,4 +131,27 @@ extension ViewController {
         buttonPlayLetter.isUserInteractionEnabled = isEnabled
     }
     
+    private func resetPicker(_ picker: UIPickerView) {
+        for i in 0...picker.numberOfComponents-1 {
+            picker.selectRow(0, inComponent: i, animated: true)
+        }
+    }
+    
+    private func updateCorrectLettersHistory() {
+        var newLine = ""
+        
+        newLine.append("\n")
+        
+        correctLetters.forEach({character in
+            newLine.append(character)
+            newLine.append(" ")
+        })
+        newLine.removeLast()
+        
+    
+        textBoxCorrectLetterHistory.text?.append(newLine)
+        
+        let stringLength:Int = self.textBoxCorrectLetterHistory.text.count
+        self.textBoxCorrectLetterHistory.scrollRangeToVisible(NSMakeRange(stringLength-1, 0))
+    }
 }
