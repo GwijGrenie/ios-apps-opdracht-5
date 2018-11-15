@@ -9,36 +9,45 @@ class ViewController: UIViewController {
     @IBOutlet weak var textBoxCorrectLetterHistory: UITextView!
     
     private let maximumNumberOfAttempts: Int = 11
-    private var correctLetters: [String] = ["_", "_", "_", "_", "_", "_"]
     
-    private var galgjeEngine: GalgjeEngine! = nil
+    private var galgjeEngine: GalgjeEngine!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         imageGallows.isHidden = true
+        
+        galgjeEngine = GalgjeEngine(self)
     }
     
     @IBAction func onTapStartGame(_ sender: UITapGestureRecognizer) {
-       showStartGameDialog()
+        let alertStartGame: UIAlertController = UIAlertController(title: "GALGJE", message: "Geef een woord van 6 letters...", preferredStyle: UIAlertController.Style.alert)
+        alertStartGame.addAction(UIAlertAction(title: "Annuleer", style: UIAlertAction.Style.cancel, handler: nil))
+        alertStartGame.addTextField(configurationHandler: { textField in
+            textField.placeholder = "Woord..."
+        })
+        alertStartGame.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { action in
+            self.onSelectedWord(alertStartGame)
+        }))
+        
+        present(alertStartGame, animated: true)
     }
     
     @IBAction func onTouchUpInsideButtonPlayLetter(_ sender: UIButton) {
         
         let currentSelectedCharacter = PickerSelectableCharactersDataSourceDelegate.selectableCharacters[pickerUserSelectedLetter.selectedRow(inComponent: 0)]
         
-        if galgjeEngine.currentAttemptedLetters.contains(currentSelectedCharacter) {
+        if galgjeEngine.currentAttemptedLetters.contains(Character(currentSelectedCharacter)) {
             return
         }
         
         let resultOfAttempt = galgjeEngine.attempt(Letter: Character(currentSelectedCharacter))
         
-        if resultOfAttempt.IsInWord {
-            resultOfAttempt.AtPositions.forEach({position in
+        if resultOfAttempt.isInWord {
+            resultOfAttempt.atPositions.forEach({position in
                 
                 let indexOfCharacter = PickerDisplayedCharactersDataSourceDelegate.displayedCharacters.firstIndex(of: currentSelectedCharacter)!
                 pickerDisplayedCharacters.selectRow(indexOfCharacter, inComponent: position, animated: true)
-                correctLetters[position] = currentSelectedCharacter
             })
             updateCorrectLettersHistory()
         } else {
@@ -64,31 +73,21 @@ extension ViewController: GalgjeEngineDelegate {
 
 extension ViewController {
     
-    private func showStartGameDialog() {
-        let alertStartGame: UIAlertController = UIAlertController(title: "GALGJE", message: "Geef een woord van 6 letters...", preferredStyle: UIAlertController.Style.alert)
-        alertStartGame.addAction(UIAlertAction(title: "Annuleer", style: UIAlertAction.Style.cancel, handler: nil))
-        alertStartGame.addTextField(configurationHandler: { textField in
-            textField.placeholder = "Woord..."
-        })
-        alertStartGame.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { action in
-            self.onSelectedWord(alertStartGame)
-        }))
-        
-        present(alertStartGame, animated: true)
-    }
-    
     private func onSelectedWord(_ alert: UIAlertController) {
         let word = alert.textFields?.first?.text
+        
         let validationResult = self.validateSelectedWord(word)
         
         if validationResult.isValid {
             resetPicker(pickerUserSelectedLetter)
             resetPicker(pickerDisplayedCharacters)
-            galgjeEngine = GalgjeEngine(WithWord: word!, WithMaximumNumberOfAttempts: maximumNumberOfAttempts)
-            galgjeEngine.attachDelegate(self)
+            resetCorrectLetterHistory()
+            
+            galgjeEngine.startNewGame(WithWord: word!, WithMaximumNumberOfAttempts: maximumNumberOfAttempts)
+            
             isLetterSelectionEnabled(true)
         } else {
-            showAlert("WRONG!", validationResult.error!)
+            showAlert("Verkeerde invoer", validationResult.error!)
         }
     }
     
@@ -101,19 +100,19 @@ extension ViewController {
     private func validateSelectedWord(_ word: String?) -> (isValid: Bool, error: String?) {
         
         guard let unwrappedWord = word else {
-            return ( false, "woord is leeg")
+            return ( false, "Woord is leeg")
         }
         
         if unwrappedWord.isEmpty {
-            return ( false, "woord is leeg" )
+            return ( false, "Woord is leeg" )
         }
         
-        if unwrappedWord.count > 6 {
-            return ( false, "woord moet minstens 6 karakters lang zijn" )
+        if unwrappedWord.count != 6 {
+            return ( false, "Woord moet minstens 6 karakters lang zijn" )
         }
         
         if !unwrappedWord.containsOnlyLetters() {
-            return ( false, "woord moet enkel letters bevatten")
+            return ( false, "Woord moet enkel letters bevatten")
         }
         
         return ( true, nil )
@@ -137,12 +136,16 @@ extension ViewController {
         }
     }
     
+    private func resetCorrectLetterHistory() {
+        textBoxCorrectLetterHistory.text = "- - - - - -"
+    }
+    
     private func updateCorrectLettersHistory() {
         var newLine = ""
         
         newLine.append("\n")
         
-        correctLetters.forEach({character in
+        galgjeEngine.currentCorrectLetters.forEach({character in
             newLine.append(character)
             newLine.append(" ")
         })
