@@ -1,6 +1,6 @@
 import UIKit
 
-class ViewController: UIViewController {
+class GameViewController: UIViewController {
     
     @IBOutlet weak var pickerDisplayedCharacters: UIPickerView!
     @IBOutlet weak var pickerUserSelectedLetter: UIPickerView!
@@ -58,10 +58,21 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: GalgjeEngineDelegate {
+extension GameViewController: GalgjeEngineDelegate {
     
     func onGameWon() {
-        showAlert("Gewonnen", "Proficiat")
+        
+        let alertHighscore: UIAlertController = UIAlertController(title: "Gewonnen", message: "Geef uw naam...", preferredStyle: UIAlertController.Style.alert)
+        alertHighscore.addAction(UIAlertAction(title: "Annuleer", style: UIAlertAction.Style.cancel, handler: nil))
+        alertHighscore.addTextField(configurationHandler: { textField in
+            textField.placeholder = "Naam..."
+        })
+        alertHighscore.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { action in
+            self.onNameGiven(alertHighscore)
+        }))
+        
+        present(alertHighscore, animated: true)
+        
         isLetterSelectionEnabled(false)
     }
     
@@ -71,7 +82,7 @@ extension ViewController: GalgjeEngineDelegate {
     }
 }
 
-extension ViewController {
+extension GameViewController {
     
     private func onSelectedWord(_ alert: UIAlertController) {
         let word = alert.textFields?.first?.text
@@ -91,6 +102,23 @@ extension ViewController {
         }
     }
     
+    private func onNameGiven(_ alert: UIAlertController) {
+        guard let name = alert.textFields?.first?.text else {
+            return
+        }
+        
+        let defaults = UserDefaults.standard
+        
+        if defaults.dictionary(forKey: "highScores") == nil {
+            defaults.set([String: Int](), forKey: "highScores")
+        }
+        
+        var highScores = defaults.dictionary(forKey: "highScores")
+        highScores![name] = self.galgjeEngine.currentAttempts
+        
+        defaults.set(highScores, forKey: "highScores")
+    }
+    
     private func showAlert(_ title: String, _ message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
@@ -98,7 +126,6 @@ extension ViewController {
     }
     
     private func validateSelectedWord(_ word: String?) -> (isValid: Bool, error: String?) {
-        
         guard let unwrappedWord = word else {
             return ( false, "Woord is leeg")
         }
@@ -119,7 +146,7 @@ extension ViewController {
     }
 }
 
-extension ViewController {
+extension GameViewController {
     
     private func isLetterSelectionEnabled() -> Bool {
         return pickerUserSelectedLetter.isUserInteractionEnabled

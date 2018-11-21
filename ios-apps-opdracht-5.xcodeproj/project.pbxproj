@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		3FD446AD219C193F00CAF7E3 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD446AB219C181900CAF7E3 /* StringExtension.swift */; };
-		3FD446AE219C195E00CAF7E3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E858CAAA218F513C00D89FCB /* ViewController.swift */; };
+		3FD446AE219C195E00CAF7E3 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E858CAAA218F513C00D89FCB /* GameViewController.swift */; };
+		3FDBABED21A54F9900D0C790 /* HighScoresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDBABEC21A54F9900D0C790 /* HighScoresViewController.swift */; };
+		3FDBABF021A5600F00D0C790 /* HighscoreDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDBABEF21A5600F00D0C790 /* HighscoreDAO.swift */; };
 		3FF1295B2194299D00DED2E4 /* PickerSelectableCharactersDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1295A2194299D00DED2E4 /* PickerSelectableCharactersDataSourceDelegate.swift */; };
 		3FF1295F21942C9400DED2E4 /* PickerDisplayedCharactersDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1295E21942C9400DED2E4 /* PickerDisplayedCharactersDataSourceDelegate.swift */; };
 		E858CAA9218F513C00D89FCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E858CAA8218F513C00D89FCB /* AppDelegate.swift */; };
@@ -20,11 +22,13 @@
 
 /* Begin PBXFileReference section */
 		3FD446AB219C181900CAF7E3 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		3FDBABEC21A54F9900D0C790 /* HighScoresViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScoresViewController.swift; sourceTree = "<group>"; };
+		3FDBABEF21A5600F00D0C790 /* HighscoreDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighscoreDAO.swift; sourceTree = "<group>"; };
 		3FF1295A2194299D00DED2E4 /* PickerSelectableCharactersDataSourceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerSelectableCharactersDataSourceDelegate.swift; sourceTree = "<group>"; };
 		3FF1295E21942C9400DED2E4 /* PickerDisplayedCharactersDataSourceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerDisplayedCharactersDataSourceDelegate.swift; sourceTree = "<group>"; };
 		E858CAA5218F513C00D89FCB /* ios-apps-opdracht-5.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-apps-opdracht-5.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E858CAA8218F513C00D89FCB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E858CAAA218F513C00D89FCB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E858CAAA218F513C00D89FCB /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		E858CAAD218F513C00D89FCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E858CAAF218F513E00D89FCB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E858CAB2218F513E00D89FCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +53,14 @@
 				3FD446AB219C181900CAF7E3 /* StringExtension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		3FDBABEE21A55FC000D0C790 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				3FDBABEF21A5600F00D0C790 /* HighscoreDAO.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 		3FF12957219426BF00DED2E4 /* DataSourceDelegate */ = {
@@ -79,6 +91,7 @@
 		E858CAA7218F513C00D89FCB /* ios-apps-opdracht-5 */ = {
 			isa = PBXGroup;
 			children = (
+				3FDBABEE21A55FC000D0C790 /* Data */,
 				3FD446AA219C180600CAF7E3 /* Extension */,
 				3FF12957219426BF00DED2E4 /* DataSourceDelegate */,
 				E8A49CA721933BF300665419 /* Controller */,
@@ -103,7 +116,8 @@
 		E8A49CA721933BF300665419 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				E858CAAA218F513C00D89FCB /* ViewController.swift */,
+				E858CAAA218F513C00D89FCB /* GameViewController.swift */,
+				3FDBABEC21A54F9900D0C790 /* HighScoresViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -179,10 +193,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FD446AE219C195E00CAF7E3 /* ViewController.swift in Sources */,
+				3FD446AE219C195E00CAF7E3 /* GameViewController.swift in Sources */,
 				E8A49CA621933BED00665419 /* GalgjeEngine.swift in Sources */,
+				3FDBABED21A54F9900D0C790 /* HighScoresViewController.swift in Sources */,
 				3FD446AD219C193F00CAF7E3 /* StringExtension.swift in Sources */,
 				3FF1295B2194299D00DED2E4 /* PickerSelectableCharactersDataSourceDelegate.swift in Sources */,
+				3FDBABF021A5600F00D0C790 /* HighscoreDAO.swift in Sources */,
 				E858CAA9218F513C00D89FCB /* AppDelegate.swift in Sources */,
 				3FF1295F21942C9400DED2E4 /* PickerDisplayedCharactersDataSourceDelegate.swift in Sources */,
 			);
@@ -331,7 +347,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8RYT2JF47B;
 				INFOPLIST_FILE = "ios-apps-opdracht-5/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -348,7 +366,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8RYT2JF47B;
 				INFOPLIST_FILE = "ios-apps-opdracht-5/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

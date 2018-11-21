@@ -12,6 +12,7 @@ class GalgjeEngine {
     private(set) var currentAttemptedLetters: [Character]
     private(set) var currentCorrectLetters: [Character]
     private(set) var maximumAttempts: Int?
+    private(set) var currentAttempts: Int
     private(set) var currentWrongAttempts: Int
     private(set) var word: String?
     
@@ -22,6 +23,7 @@ class GalgjeEngine {
     init(_ delegate: GalgjeEngineDelegate?) {
         currentAttemptedLetters = [Character]()
         currentWrongAttempts = 0
+        currentAttempts = 0
         
         currentCorrectLetters = [Character]()
         attachDelegate(delegate)
@@ -59,12 +61,13 @@ class GalgjeEngine {
         
         guard let word = self.word, let _ = self.maximumAttempts else {
             return (false, [Int]())
-            // TODO: throw error
         }
         
         if !currentAttemptedLetters.contains(letter) {
             currentAttemptedLetters.append(letter)
         }
+        
+        currentAttempts += 1
         
         var isCharacterFound: Bool = false
         var positionsOfFoundCharacters: [Int] = [Int]()
